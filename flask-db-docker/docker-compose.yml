@@ -1,0 +1,14 @@
+version: '3.3'
+services:
+  web:
+    build: .
+    ports:
+      - 5000:5000
+    environment:
+      - FLASK_APP=app.py
+    volumes:
+      - .:app
+      - sqlite:/app/data
+
+volumes:
+  sqlite:

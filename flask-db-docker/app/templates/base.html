@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %} Tarefas {% endblock %}</title>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href={{url_for('list')}}>Home</a></li>
+      <li><a href={{url_for('create')}}>Create</a></li>
+    </ul>
+  </nav>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class="flashes" >
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</body>
+</html>
