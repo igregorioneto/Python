@@ -2,11 +2,31 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href={{url_for('static', filename='css/edit.css')}}>
   <title>Document</title>
 </head>
 <body>
   <h1>Editar uma tarefa</h1>
+
+  {% extends 'base.html' %}
+
+    {% block content %}
+      <form method="POST" action="{{ url_for('edit_task', task_id=task.id) }}">
+        <label for="title">Título</label>
+        <input type="text" name="title" id="title" value="{{ task.title }}" required>
+        <br>
+        <label for="description">Descrição</label>
+        <textarea name="description" id="description" required>{{ task.description }}</textarea>
+        <br>
+        <label for="status">Status</label>
+        <select name="status" id="status" required>
+          <option value="TODO" {% if task.status == 'TODO' %} selected {% endif %}>A Fazer</option>
+          <option value="DOING" {% if task.status == 'DOING' %} selected {% endif %}>Fazendo</option>
+          <option value="DONE" {% if task.status == 'DONE' %} selected {% endif %}>Feito</option>
+        </select>
+        <br>
+        <button type="submit">Salvar</button>
+      </form>
+    {% endblock %}
 </body>
 </html>

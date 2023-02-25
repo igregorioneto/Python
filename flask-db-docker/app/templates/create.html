@@ -2,11 +2,30 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href={{url_for('static', filename='css/create.css')}}>
   <title>Document</title>
 </head>
 <body>
-  <h1>Cadastrar uma tarefa</h1>
+  {% extends 'base.html' %}
+
+    {% block content %}
+      <h1>Criar Nova Tarefa</h1>
+      <form method="POST" action="{{ url_for('create_task') }}">
+        <label for="title">Título</label>
+        <input type="text" name="title" id="title" required>
+        <br>
+        <label for="description">Descrição</label>
+        <textarea name="description" id="description" required></textarea>
+        <br>
+        <label for="status">Status</label>
+        <select name="status" id="status" required>
+          <option value="TODO">A Fazer</option>
+          <option value="DOING">Fazendo</option>
+          <option value="DONE">Feito</option>
+        </select>
+        <br>
+        <button type="submit">Salvar</button>
+      </form>
+    {% endblock %}
 </body>
 </html>

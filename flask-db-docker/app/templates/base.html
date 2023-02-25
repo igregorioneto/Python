@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href={{ url_for('static', filename='css/base.html') }}>
   <title>{% block title %} Tarefas {% endblock %}</title>
 </head>
 <body>
   <nav>
     <ul>
-      <li><a href={{url_for('list')}}>Home</a></li>
-      <li><a href={{url_for('create')}}>Create</a></li>
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('list') }}">Todas as Tarefas</a></li>
+      <li><a href="{{ url_for('create') }}">Criar Nova Tarefa</a></li>
     </ul>
   </nav>
 
