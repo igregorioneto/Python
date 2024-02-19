@@ -1,0 +1,4 @@
+data,produto,quantidade,preco_unitario
+2024-01-01,Produto A,10,25.00
+2024-01-01,Produto B,5,15.00
+2024-01-02,Produto A,8,25.00

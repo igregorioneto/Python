@@ -1,5 +1,19 @@
 class ContaBancaria:
+    """
+    Representa uma conta bancária.
+
+    Atributos:
+    numero_conta (str): O número da conta bancária.
+    saldo (float): O saldo da conta bancária.
+
+    Métodos:
+    deposito(valor): Adiciona o valor especificado ao saldo da conta.
+    saque(valor): Subtrai o valor especificado do saldo da conta, desde que haja saldo suficiente.
+    verificar_saldo(): Retorna o saldo atual da conta.
+    bem_vindo(): Retorna uma mensagem de boas-vindas ao titular da conta.
+    """
     def __init__(self,numero_conta, saldo):
+        """Inicializa uma nova instância da classe ContaBancaria."""
         self._numero_conta = numero_conta
         self._saldo = int(saldo)
 
