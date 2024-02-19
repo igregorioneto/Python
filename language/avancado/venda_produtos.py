@@ -3,7 +3,7 @@ import csv
 # Calcular total de vendas para cada produto
 # Calcular o total de vendas por dia
 
-diretorio = "/home/gregorio/Documentos/Projetos/Python/language/avancado/venda_produtos.csv"
+diretorio = "diretorio_completo/venda_produtos.csv"
 
 total_vendas = 0.0
 total_vendas_dia = {}
