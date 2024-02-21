@@ -1,4 +1,7 @@
 
-FROM alpine:latest
-RUN apk update && apk add python3
-CMD ["python3", "-c", "print('Hello, Docker!')"]
+FROM python:3.9
+WORKDIR /app
+COPY app.py /app
+RUN pip install -r requirements.txt
+EXPOSE 5000
+CMD ["python3", "app.py"]
