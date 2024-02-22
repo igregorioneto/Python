@@ -76,4 +76,4 @@ def backup_dir(userdir, backup_dir_name, dir_for_backup):
 
 
 if __name__ == "__main__":
-    backup_dir("gregorio", "backup", "meus_documentos")
+    backup_dir("usuario", "backup", "meus_documentos")
