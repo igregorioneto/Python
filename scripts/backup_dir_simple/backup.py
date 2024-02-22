@@ -76,4 +76,7 @@ def backup_dir(userdir, backup_dir_name, dir_for_backup):
 
 
 if __name__ == "__main__":
-    backup_dir("usuario", "backup", "meus_documentos")
+    usur = input("Digite o nome do usuário: ")
+    dir_backup = input("Digite o nome da pasta que guardará o backup: ")
+    dir_documents = input("Digite o nome da pasta que contem os arquivos para backup: ")
+    backup_dir(usur, dir_backup, dir_documents)
