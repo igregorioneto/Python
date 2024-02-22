@@ -1,4 +1,3 @@
-from flask import Flask, request, jsonify
 import sys
 import os
 from fabric import Connection
@@ -6,7 +5,6 @@ import tarfile
 import shutil
 from datetime import datetime
 
-app = Flask(__name__)
 
 def backup_dir(userdir, backup_dir_name, dir_for_backup):
     # Verifica sistema linux
@@ -62,16 +60,3 @@ def backup_dir(userdir, backup_dir_name, dir_for_backup):
             backup_info.append(f"O usuário informado {userdir} não existe.")
 
     return backup_info
-
-@app.route("/backup", methods=['POST'])
-def backup():
-    data = request.get_json()
-    userdir = data.get('userdir')
-    backup_dir_name = data.get('backup_dir_name')
-    dir_for_backup = data.get('dir_for_backup')
-
-    backup_result = backup_dir(userdir=userdir, backup_dir_name=backup_dir_name, dir_for_backup=dir_for_backup)
-    return jsonify({ "backup_result":backup_result })
-
-if __name__ == "__main__":
-    app.run(debug=True)
