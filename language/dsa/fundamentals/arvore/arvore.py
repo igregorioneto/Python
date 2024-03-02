@@ -1,3 +1,7 @@
+'''
+Estrutura de dados hierárquica que consistem
+em nós conectados por arestas.
+'''
 class No:
     def __init__(self, valor):
         self.valor = valor
