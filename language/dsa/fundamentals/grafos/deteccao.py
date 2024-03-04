@@ -1,6 +1,6 @@
 '''
-Sistema de detecção de intrusões para encontrar o caminho
-mais curto entre um computador comprometido e um computador
+Sistema de detecção de intrusões para encontrar o menor caminho
+entre um computador comprometido e um computador
 crítico na rede.
 '''
 
