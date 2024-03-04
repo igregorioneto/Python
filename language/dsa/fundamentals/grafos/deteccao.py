@@ -19,23 +19,36 @@ class Grafo:
             self.vertices[origem][destino] = peso
 
     def dijkstra(self, origem, destino):
+        # Inicializa todas as distancias como infinito, medos a origem
         distancia = {v: float('inf') for v in self.vertices}
         distancia[origem] = 0
+
+        # Inicializa a fila de propriedade com a origem
         fila = [(0, origem)]
 
         while fila:
             # Remove e retorna o vértice com a menor distância da fila de propriedade
             dist_v, v = heapq.heappop(fila)
+
+            # Se o vértice removido é um destino, retorna a distância mínima até ele
             if v == destino:
                 return distancia[v]
+            
+            # Se a distância atual é maior que a distância armazenada, ignora
             if dist_v > distancia[v]:
                 continue
+
+            # Para cada vizinho 'u' do vértice 'v'
             for u, peso in self.vertices[v].items():
+                # Calcula a nova distância
                 nova_dist = dist_v + peso
+                # Se a nova distância for menor do que a distância atual
                 if nova_dist < distancia[u]:
+                    # Atualiza a distância e insere na fila de propriedade
                     distancia[u] = nova_dist
                     heapq.heappush(fila, (nova_dist, u))
         
+        # Se o destino não for alcançado, retorna infinito
         return float('inf')
 
 # Exemple of use    
