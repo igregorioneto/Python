@@ -39,9 +39,9 @@ class LinkedList:
         while current:
             pygame.draw.circle(screen, NODE_COLOR, (x, y), NODE_RADIUS)
             font = pygame.font.Font(None, FONT_SIZE)
-            text = font.render(str(current.value), True, FONT_COLOR)
+            text = font.render(str(current.value), True, (0,0,0))
             text_rect = text.get_rect(center=(x, y))
-            screen.blit(text, text_rect)
+            screen.blit(text, text_rect.topleft)
             if current.next:
                 pygame.draw.line(screen, LINE_COLOR, (x + NODE_RADIUS, y), (x + 2 * NODE_RADIUS, y))
             x += 3 * NODE_RADIUS
