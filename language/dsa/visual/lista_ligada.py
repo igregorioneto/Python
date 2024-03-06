@@ -37,8 +37,8 @@ class LinkedList:
         while current:
             pygame.draw.circle(screen, NODE_COLOR, (x, y), NODE_RADIUS)
             font = pygame.font.Font(None, 24)
-            text = font.render(str(current.value), True, (255,255,255))
-            screen.blit(text, (x - 10, y - 10))
+            text = font.render(str(current.value), True, (0,0,0))
+            screen.blit(text, (x - 5, y - 10))
             if current.next:
                 pygame.draw.line(screen, LINE_COLOR, (x + NODE_RADIUS, y), (x + 2 * NODE_RADIUS, y))
             x += 3 * NODE_RADIUS
@@ -53,17 +53,25 @@ def main():
     clock = pygame.time.Clock()
 
     linked_list = LinkedList()
-    linked_list.insert(1)
-    linked_list.insert(2)
-    linked_list.insert(3)
-    linked_list.insert(4)
-    linked_list.insert(5)
+    #linked_list.insert(1)
+    #linked_list.insert(2)
+    #linked_list.insert(3)
+    #linked_list.insert(4)
+    #linked_list.insert(5)
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    value = input("Digite o valor para adicionar: ")
+                    try:
+                        value = int(value)
+                        linked_list.insert(value)
+                    except ValueError:
+                        print("Valor inválido. Por favor, insira o número inteiro.")
 
         screen.fill(BACKGROUND_COLOR)
         linked_list.draw(screen)
