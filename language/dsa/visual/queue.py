@@ -1,5 +1,5 @@
-from .draw_structure import DrawStructure
-from .constants import BACKGROUND_COLOR,FONT_COLOR,FONT_SIZE, LINE_COLOR, NODE_COLOR, NODE_RADIUS, SCREEN_HEIGHT, SCREEN_WIDTH 
+from draw_structure import DrawStructure
+from constants import BACKGROUND_COLOR,FONT_COLOR,FONT_SIZE, LINE_COLOR, NODE_COLOR, NODE_RADIUS, SCREEN_HEIGHT, SCREEN_WIDTH 
 
 import pygame, sys
 
