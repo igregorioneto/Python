@@ -12,8 +12,13 @@ BALL_SIZE = 20
 BALL_SPEED_X = 5
 BALL_SPEED_Y = 5
 
+point_player1 = 0
+point_player2 = 0
+
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Pong")
+
+font = pygame.font.Font(None, 36)
 
 player1 = pygame.Rect(50, SCREEN_HEIGHT // 2 - PADDLE_HEIGHT // 2, PADDLE_WIDTH, PADDLE_HEIGHT)
 player2 = pygame.Rect(SCREEN_WIDTH - 50 - PADDLE_WIDTH, SCREEN_HEIGHT // 2 - PADDLE_HEIGHT // 2, PADDLE_WIDTH, PADDLE_HEIGHT)
@@ -49,10 +54,27 @@ while True:
     if ball.left <= 0 or ball.right >= SCREEN_WIDTH:
         ball_speed_x *= -1
 
+    if ball.left <= 0:
+        point_player2 += 1
+        ball = pygame.Rect(SCREEN_WIDTH // 2 - BALL_SIZE // 2, SCREEN_HEIGHT // 2 - BALL_SIZE // 2, BALL_SIZE, BALL_SIZE)
+        print(f"Ponto Player 2: {point_player2}")
+    elif ball.right >= SCREEN_WIDTH:
+        point_player1 += 1
+        ball = pygame.Rect(SCREEN_WIDTH // 2 - BALL_SIZE // 2, SCREEN_HEIGHT // 2 - BALL_SIZE // 2, BALL_SIZE, BALL_SIZE)
+        print(f"Ponto Player 1: {point_player1}")
+
+    if point_player1 == 3:
+        pygame.quit()
+    if point_player2 == 3:
+        pygame.quit()
+
     if ball.colliderect(player1) or ball.colliderect(player2):
         ball_speed_x *= -1
 
     screen.fill(BG_COLOR)
+
+    score_text = font.render(f"Player 1: {point_player1} Player2: {point_player2}", True, (255,255,255))
+    screen.blit(score_text, (SCREEN_WIDTH // 2 - score_text.get_width() // 2, 20))
 
     pygame.draw.rect(screen, (255,255,255), player1)
     pygame.draw.rect(screen, (255,255,255), player2)
