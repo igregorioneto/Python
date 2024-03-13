@@ -15,6 +15,8 @@ BALL_SPEED_Y = 5
 point_player1 = 0
 point_player2 = 0
 
+winner = ""
+
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Pong")
 
@@ -26,6 +28,47 @@ player2 = pygame.Rect(SCREEN_WIDTH - 50 - PADDLE_WIDTH, SCREEN_HEIGHT // 2 - PAD
 ball = pygame.Rect(SCREEN_WIDTH // 2 - BALL_SIZE // 2, SCREEN_HEIGHT // 2 - BALL_SIZE // 2, BALL_SIZE, BALL_SIZE)
 ball_speed_x = BALL_SPEED_X
 ball_speed_y = BALL_SPEED_Y
+
+def show_go_screen(winner):
+    # Criar uma superfície de cor de fundo
+    background_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+    background_surface.fill((255,255,255))
+
+    # Desenhando a superfície na tela.
+    screen.blit(background_surface, (0,0))
+
+    # Verificar o vencedor
+    if winner == "Player 1":
+        winner_text = "Player 1 Wins!"
+    elif winner == "Player 2":
+        winner_text = "Player 2 Wins!"
+    else:
+        winner_text = "It's a Tie!"
+        
+    # Rendezirar Texto do Vencedor
+    text_surface = font.render(winner_text, True, (0,0,0))
+    text_rect = text_surface.get_rect(center=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+    screen.blit(text_surface, text_rect)
+
+    # Renderizar o texto para jogar novamente
+    replay_surface = font.render("Press space bar to play again", True, (0,0,0))
+    replay_rect = replay_surface.get_rect(center=(SCREEN_WIDTH / 2, SCREEN_HEIGHT * 3 / 4))
+    screen.blit(replay_surface, replay_rect)
+
+    pygame.display.flip()
+
+    done = False
+    while not done:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    done = True
+
+        pygame.time.Clock().tick(60)
 
 
 while True:
@@ -64,9 +107,13 @@ while True:
         print(f"Ponto Player 1: {point_player1}")
 
     if point_player1 == 3:
-        pygame.quit()
+        # pygame.quit()
+        winner = "Player 1"
+        show_go_screen(winner)
     if point_player2 == 3:
-        pygame.quit()
+        # pygame.quit()
+        winner = "Player 2"
+        show_go_screen(winner=winner)
 
     if ball.colliderect(player1) or ball.colliderect(player2):
         ball_speed_x *= -1
