@@ -61,17 +61,17 @@ def show_go_screen(winner):
     while not done:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                done = True
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    done = True
+                    return True
 
         pygame.time.Clock().tick(60)
+    return False
 
-
-while True:
+running = True
+while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -106,14 +106,16 @@ while True:
         ball = pygame.Rect(SCREEN_WIDTH // 2 - BALL_SIZE // 2, SCREEN_HEIGHT // 2 - BALL_SIZE // 2, BALL_SIZE, BALL_SIZE)
         print(f"Ponto Player 1: {point_player1}")
 
-    if point_player1 == 3:
-        # pygame.quit()
-        winner = "Player 1"
-        show_go_screen(winner)
-    if point_player2 == 3:
-        # pygame.quit()
-        winner = "Player 2"
-        show_go_screen(winner=winner)
+    if point_player1 == 3 or point_player2 == 3:
+        winner = "Player 1" if point_player1 == 3 else "Player 2"
+        if show_go_screen(winner):
+            point_player1 = 0
+            point_player2 = 0
+            ball = pygame.Rect(SCREEN_WIDTH // 2 - BALL_SIZE // 2, SCREEN_HEIGHT // 2 - BALL_SIZE // 2, BALL_SIZE, BALL_SIZE)
+            winner = ""
+        else:
+            running = False
+
 
     if ball.colliderect(player1) or ball.colliderect(player2):
         ball_speed_x *= -1
