@@ -26,10 +26,10 @@ def convert_avi_to_mp4(input_file, output_file):
 
 if __name__ == "__main__":
     # Caminho do arquivo de entrada AVI
-    input_file = "input.avi"
+    input_file = "/home/greg/Downloads/Toma Lá Dá Cá [2ªTemporada]By - Anarky.69/Toma Lá Dá Cá - Ep.15.avi"
 
     # Caminho para salvar o arquivo no formato MP4
-    output_file = "output.mp4"
+    output_file = "/home/greg/Downloads/Toma Lá Dá Cá - Ep.15.mp4"
 
     # Chamando a função para converter o arquivo
     convert_avi_to_mp4(input_file, output_file)
