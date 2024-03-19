@@ -19,16 +19,28 @@ def initialize_game():
     pygame.display.set_caption("SNAKE")
     return screen
 
+def draw_elements(screen,snake):
+    screen.fill(BACKGROUND)
+    pygame.draw.rect(screen, SNAKE_COLOR, snake)
+
+    pygame.display.flip()
+
+
 def main():
     screen = initialize_game()
     clock = pygame.time.Clock()
     font = pygame.font.Font(None, FONT_SIZE)
+
+    # Snake
+    snake = pygame.Rect(50, SCREEN_HEIGHT // 2 - SNAKE_WIDTH // 2, SNAKE_WIDTH, SNAKE_WIDTH)
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
+        draw_elements(screen, snake)
 
 
 if __name__ == "__main__":
