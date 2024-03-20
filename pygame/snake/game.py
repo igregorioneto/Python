@@ -22,11 +22,17 @@ def initialize_game():
     return screen, coin
 
 # Draw elements
-def draw_elements(screen, snake, apple, font, points):
+def draw_elements(screen, snake, apple, font, points, list_snake):
     screen.fill(BACKGROUND)
-    # Game
-    pygame.draw.rect(screen, SNAKE_COLOR, snake)
+    # Game    
+    #pygame.draw.rect(screen, SNAKE_COLOR, snake)
     pygame.draw.rect(screen, APPLE_COLOR, apple)
+
+    # Snake draw
+    for xy in list_snake:
+        snake.x = xy[0]
+        snake.y = xy[1]
+        pygame.draw.rect(screen, SNAKE_COLOR, snake)       
 
     # Fonts
     score_text = font.render(f"Points: {points}", False, FONT_COLOR)
@@ -60,7 +66,7 @@ def colision(snake, apple, sound, points):
         apple.y = random_value(0, SCREEN_HEIGHT - APPLE_WIDTH)
     return points
 
-def updating_snake(snake):
+def updating_snake(snake, list_snake):
     if snake.x < 0:
         snake.x = SCREEN_WIDTH - SNAKE_WIDTH
     if snake.x > SCREEN_WIDTH:
@@ -70,12 +76,17 @@ def updating_snake(snake):
     if snake.y > SCREEN_HEIGHT:
         snake.y = 0
 
+    list_snake.append([snake.x, snake.y])
+    return list_snake
+    
+
 def main():
     screen, coin = initialize_game()
     clock = pygame.time.Clock()
     font = pygame.font.Font(None, FONT_SIZE)
 
     points = 0
+    list_snake = []
 
     # Snake
     snake = pygame.Rect(50, SCREEN_HEIGHT // 2 - SNAKE_WIDTH // 2, SNAKE_WIDTH, SNAKE_WIDTH)
@@ -88,13 +99,13 @@ def main():
                 pygame.quit()
                 sys.exit()
 
-        draw_elements(screen, snake, apple, font, points)
+        draw_elements(screen, snake, apple, font, points, list_snake)
 
         handle_input(snake)
 
         points = colision(snake, apple, coin, points)
 
-        updating_snake(snake)
+        list_snake = updating_snake(snake, list_snake)
 
         clock.tick(60)
 
