@@ -25,20 +25,19 @@ def initialize_game():
 def draw_elements(screen, snake, apple, font, points, list_snake):
     screen.fill(BACKGROUND)
     # Game    
-    #pygame.draw.rect(screen, SNAKE_COLOR, snake)
-    pygame.draw.rect(screen, APPLE_COLOR, apple)
+    pygame.draw.rect(screen, SNAKE_COLOR, snake)
+    pygame.draw.rect(screen, APPLE_COLOR, apple)   
 
-    # Snake draw
-    for xy in list_snake:
-        snake.x = xy[0]
-        snake.y = xy[1]
-        pygame.draw.rect(screen, SNAKE_COLOR, snake)       
+    # Updating Snake
+    updating_snake(screen, list_snake) 
 
     # Fonts
     score_text = font.render(f"Points: {points}", False, FONT_COLOR)
     screen.blit(score_text, (SCREEN_WIDTH // 2 - score_text.get_width() // 2, 20))
 
     pygame.display.flip()
+
+
 
 # Random int
 def random_value(initial, value):
@@ -58,15 +57,16 @@ def handle_input(snake):
         snake.x += SNAKE_SPEED
     
 
-def colision(snake, apple, sound, points):
+def colision(snake, apple, sound, points, comprimento_cobra):
     if snake.colliderect(apple):
         sound.play()
         points += 1
         apple.x = random_value(0, SCREEN_WIDTH - APPLE_WIDTH)
         apple.y = random_value(0, SCREEN_HEIGHT - APPLE_WIDTH)
-    return points
+        comprimento_cobra += 1
+    return points, comprimento_cobra
 
-def updating_snake(snake, list_snake):
+def verify_snake_bords(snake, list_snake, comprimento_cobra):
     if snake.x < 0:
         snake.x = SCREEN_WIDTH - SNAKE_WIDTH
     if snake.x > SCREEN_WIDTH:
@@ -74,11 +74,17 @@ def updating_snake(snake, list_snake):
     if snake.y < 0:
         snake.y = SCREEN_HEIGHT - SNAKE_WIDTH
     if snake.y > SCREEN_HEIGHT:
-        snake.y = 0
+        snake.y = 0 
 
-    list_snake.append([snake.x, snake.y])
+    if len(list_snake) > comprimento_cobra:
+        del list_snake[0]
+
     return list_snake
-    
+
+def updating_snake(screen, list_snake):
+    # Snake draw
+    for xy in list_snake:
+        pygame.draw.rect(screen, SNAKE_COLOR, (xy[0], xy[1], SNAKE_WIDTH, SNAKE_WIDTH))   
 
 def main():
     screen, coin = initialize_game()
@@ -86,6 +92,7 @@ def main():
     font = pygame.font.Font(None, FONT_SIZE)
 
     points = 0
+    comprimento_cobra = 5
     list_snake = []
 
     # Snake
@@ -98,14 +105,20 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+        
+        # Snake HEAD
+        list_head_snake = []
+        list_head_snake.append(snake.x)
+        list_head_snake.append(snake.y)
+        list_snake.append(list_head_snake)
 
         draw_elements(screen, snake, apple, font, points, list_snake)
 
         handle_input(snake)
 
-        points = colision(snake, apple, coin, points)
+        points, comprimento_cobra = colision(snake, apple, coin, points, comprimento_cobra)
 
-        list_snake = updating_snake(snake, list_snake)
+        list_snake = verify_snake_bords(snake, list_snake, comprimento_cobra)
 
         clock.tick(60)
 
