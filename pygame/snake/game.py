@@ -45,16 +45,16 @@ def random_value(initial, value):
 # Moviment like the original game
 def handle_input(snake, control_x, control_y):
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_UP] and not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
+    if keys[pygame.K_UP] and control_x != 0:
         control_x = 0
         control_y = -SNAKE_SPEED
-    if keys[pygame.K_DOWN] and not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
+    if keys[pygame.K_DOWN] and control_x != 0:
         control_x = 0
         control_y = +SNAKE_SPEED
-    if keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
+    if keys[pygame.K_LEFT] and control_y != 0:
         control_x = -SNAKE_SPEED
         control_y = 0
-    if keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
+    if keys[pygame.K_RIGHT] and control_y != 0:
         control_x = +SNAKE_SPEED
         control_y = 0
     print(control_x, control_y)
@@ -101,7 +101,7 @@ def main():
     comprimento_cobra = 0
     list_snake = []
 
-    control_x = 0
+    control_x = SNAKE_SPEED
     control_y = 0
 
     # Snake
