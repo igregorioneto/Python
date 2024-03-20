@@ -37,24 +37,30 @@ def draw_elements(screen, snake, apple, font, points, list_snake):
 
     pygame.display.flip()
 
-
-
 # Random int
 def random_value(initial, value):
     return random.randint(initial,value)
 
 # Moviment Snake
 # Moviment like the original game
-def handle_input(snake):
+def handle_input(snake, control_x, control_y):
     keys = pygame.key.get_pressed()
     if keys[pygame.K_UP] and not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
-        snake.y -= SNAKE_SPEED
+        control_x = 0
+        control_y = -SNAKE_SPEED
     if keys[pygame.K_DOWN] and not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
-        snake.y += SNAKE_SPEED
+        control_x = 0
+        control_y = +SNAKE_SPEED
     if keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
-        snake.x -= SNAKE_SPEED
+        control_x = -SNAKE_SPEED
+        control_y = 0
     if keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
-        snake.x += SNAKE_SPEED
+        control_x = +SNAKE_SPEED
+        control_y = 0
+    print(control_x, control_y)
+    snake.x += control_x
+    snake.y += control_y 
+    return control_x, control_y
     
 
 def colision(snake, apple, sound, points, comprimento_cobra):
@@ -92,8 +98,11 @@ def main():
     font = pygame.font.Font(None, FONT_SIZE)
 
     points = 0
-    comprimento_cobra = 5
+    comprimento_cobra = 0
     list_snake = []
+
+    control_x = 0
+    control_y = 0
 
     # Snake
     snake = pygame.Rect(50, SCREEN_HEIGHT // 2 - SNAKE_WIDTH // 2, SNAKE_WIDTH, SNAKE_WIDTH)
@@ -114,7 +123,7 @@ def main():
 
         draw_elements(screen, snake, apple, font, points, list_snake)
 
-        handle_input(snake)
+        control_x, control_y = handle_input(snake, control_x, control_y)
 
         points, comprimento_cobra = colision(snake, apple, coin, points, comprimento_cobra)
 
