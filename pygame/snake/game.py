@@ -44,8 +44,7 @@ def game_over(screen, font, points):
 
     game_over_displayed = False
 
-    finish = True
-    while finish:        
+    while True:        
         screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2, SCREEN_HEIGHT // 2 - game_over_text.get_height() // 2))
         pygame.display.flip()
 
@@ -54,15 +53,14 @@ def game_over(screen, font, points):
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_r:
-                    game_restart()
-                    finish = False  
-
+                if event.key == pygame.K_r:                    
+                    return
+                
+        pygame.display.update()
 
         if not game_over_displayed:
             pygame.display.flip()
             game_over_displayed = True
-
 
 
 # Random int
@@ -119,15 +117,14 @@ def updating_snake(screen, list_snake):
     for xy in list_snake:
         pygame.draw.rect(screen, SNAKE_COLOR, (xy[0], xy[1], SNAKE_WIDTH, SNAKE_WIDTH))   
 
-def game_restart():
-    global points, comprimento_cobra, list_snake, list_head_snake, control_x, control_y, finish
+def game_restart(points, comprimento_cobra, list_snake, list_head_snake, control_x, control_y):
     points = 0
     comprimento_cobra = 0
     list_snake = []
     list_head_snake = []
     control_x = SNAKE_SPEED
     control_y = 0
-    finish = False
+    return points, comprimento_cobra, list_snake, list_head_snake, control_x, control_y
 
 def main():
     screen, coin = initialize_game()
@@ -168,6 +165,7 @@ def main():
 
         if list_snake.count(list_head_snake) > 1:
             game_over(screen, font, points)
+            points, comprimento_cobra, list_snake, list_head_snake, control_x, control_y = game_restart(points, comprimento_cobra, list_snake, list_head_snake, control_x, control_y)
         
         clock.tick(60)
 
