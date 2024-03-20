@@ -38,23 +38,30 @@ def draw_elements(screen, snake, apple, font, points, list_snake):
     pygame.display.flip()
 
 # Game Over
-def game_over(screen, font, points, list_snake, list_head_snake):
-    if list_snake.count(list_head_snake) > 1:        
-        game_over_text = font.render(f"Game Over, You points: {points}, press R for reload game.", False, FONT_COLOR)
+def game_over(screen, font, points):   
+    screen.fill(BACKGROUND)
+    game_over_text = font.render(f"Game Over, You points: {points}, press R for reload game.", False, FONT_COLOR)       
 
-        finish = True
-        while finish:
-            screen.fill(BACKGROUND)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_r:
-                        game_restart()
-            screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2, SCREEN_HEIGHT // 2 - game_over_text.get_height() // 2))
-        
-        pygame.display.update()
+    game_over_displayed = False
+
+    finish = True
+    while finish:        
+        screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2, SCREEN_HEIGHT // 2 - game_over_text.get_height() // 2))
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    game_restart()
+                    finish = False  
+
+
+        if not game_over_displayed:
+            pygame.display.flip()
+            game_over_displayed = True
 
 
 
@@ -159,7 +166,8 @@ def main():
 
         list_snake = verify_snake_bords(snake, list_snake, comprimento_cobra)
 
-        game_over(screen, font, points, list_snake, list_head_snake)
+        if list_snake.count(list_head_snake) > 1:
+            game_over(screen, font, points)
         
         clock.tick(60)
 
