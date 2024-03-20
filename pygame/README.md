@@ -13,3 +13,16 @@
 Jogo Pong desenvolvido com PyGame.
 
 </details>
+
+<details>
+<summary>Snake - snake</summary>
+
+## Pong
+
+<img src="snake/assets/snake.gif" width="300">
+
+### Descrição
+
+Jogo Snake desenvolvido com PyGame.
+
+</details>
