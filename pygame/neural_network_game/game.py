@@ -29,21 +29,32 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = PLAYER_WIDTH // 2
         self.rect.bottom = SCREEN_HEIGHT - 10
         self.speed_x = 0
+        self.speed_y = 0
 
     def update(self):
         self.speed_x = 0
+        self.speed_y = 0
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             self.speed_x = -PLAYER_SPEED
         if keys[pygame.K_RIGHT]:
             self.speed_x = PLAYER_SPEED
+        if keys[pygame.K_UP]:
+            self.speed_y = -PLAYER_SPEED
+        if keys[pygame.K_DOWN]:
+            self.speed_y = PLAYER_SPEED
 
         self.rect.x += self.speed_x
+        self.rect.y += self.speed_y
 
         if self.rect.left < 0:
             self.rect.left = 0
         if self.rect.right > SCREEN_WIDTH:
-            self.rect.right = SCREEN_WIDTH  
+            self.rect.right = SCREEN_WIDTH
+        if self.rect.top < 0:
+            self.rect.top = 0
+        if self.rect.bottom > SCREEN_HEIGHT:
+            self.rect.bottom = SCREEN_HEIGHT
 
 # Classe para obstáculos controlados pela rede neural
 class Obstacle(pygame.sprite.Sprite):
@@ -117,13 +128,12 @@ def main():
 
         # Controle dos obstáculos pela rede neural
         for obstacle in obstacles:
-            obstacle.rect.x += OBSTACLE_SPEED
             inputs = np.array([[obstacle.rect.x, obstacle.rect.y]])
             output = neural_net.predict(inputs)
             if output > 0.5:
                 obstacle.rect.y -= 1
             else:
-                obstacle.rect.x += 1
+                obstacle.rect.y += 1
         
         hits = pygame.sprite.spritecollide(player, obstacles, False)
         if hits:
