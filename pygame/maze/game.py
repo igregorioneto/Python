@@ -23,8 +23,6 @@ maze = [
 SCREEN_WIDTH = len(maze[0]) * CELL_SIZE # Largura da tela
 SCREEN_HEIGHT = len(maze) * CELL_SIZE # Altura da tela
 
-maze_game = copy.deepcopy(maze)
-
 # Função para desenhar o labirinto
 def draw_maze(screen, maze):
     for y, row in enumerate(maze):
@@ -90,7 +88,10 @@ def input_move_player(maze, win):
 
 # Função para exibir uma mensagem e um botão "OK" no centro da tela
 def show_message(screen, message):    
-    
+    # Cor de fundo transparente
+    background_color = (0,0,0,128)
+    screen.fill(background_color)
+
     font = pygame.font.Font(None, 36)
     text = font.render(message, True, (0,0,255))
     text_rect = text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
@@ -107,8 +108,7 @@ def show_message(screen, message):
     pygame.display.flip()
 
     # Loop para esperar o jogador apertar o botão 'OK'
-    waiting = True
-    while waiting:
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -116,19 +116,24 @@ def show_message(screen, message):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 if button.collidepoint(mouse_pos):
-                    waiting = False
+                    screen, clock, win, maze_game = initial_game()
+                    return screen, clock, win, maze_game
 
-
-# Função principal
-def main():
+def initial_game():    
     pygame.init()
+    maze_game = copy.deepcopy(maze)
     screen = pygame.display.set_mode((len(maze_game[0]) * CELL_SIZE, len(maze_game) * CELL_SIZE))
     pygame.display.set_caption("Maze")
     
-    clock = pygame.time.Clock()
+    clock = pygame.time.Clock()    
 
     player = Player()
     win = False
+    return screen, clock, win, maze_game
+
+# Função principal
+def main():
+    screen, clock, win, maze_game = initial_game()
 
     while True:
         for event in pygame.event.get():
@@ -141,7 +146,7 @@ def main():
 
         # Se o jogador venceu!
         if win:
-            show_message(screen=screen, message="Você encontrou a saída!")                          
+            screen, clock, win, maze_game = show_message(screen=screen, message="Você encontrou a saída!")                          
 
         screen.fill(BACKGROUND)
         # Desenhando Labirinto em tela
