@@ -21,7 +21,7 @@ maze = [
 ]
 
 # Função para desenhar o labirinto
-def draw_maze(screen):
+def draw_maze(screen, player):
     for y, row in enumerate(maze):
         for x, cell in enumerate(row):
             if cell == 1:
@@ -35,6 +35,22 @@ def draw_maze(screen):
             pygame.draw.rect(screen, color, (x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
             pygame.draw.rect(screen, (0,0,0), (x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 1)
 
+# Classe Player
+class Player(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.Surface((CELL_SIZE, CELL_SIZE))
+        self.image.fill(PLAYER_COLOR)
+        self.rect = self.image.get_rect()
+
+
+def find_number_position(maze, number):
+    for i in range(len(maze)):
+        for j in range(len(maze[i])):
+            if maze[i][j] == number:
+                return i, j
+    return None
+
 # Função principal
 def main():
     pygame.init()
@@ -43,15 +59,41 @@ def main():
     
     clock = pygame.time.Clock()
 
+    player = Player()
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
+            elif event.type == pygame.KEYDOWN:
+                keys = pygame.key.get_pressed()
+                position_player = find_number_position(maze,3)
+                if keys[pygame.K_LEFT]:
+                    next_position = (position_player[0], position_player[1] - 1)
+                    if maze[next_position[0]][next_position[1]] == 0:            
+                        maze[next_position[0]][next_position[1]] = 3
+                        maze[position_player[0]][position_player[1]] = 0   
+                if keys[pygame.K_RIGHT]:
+                    next_position = (position_player[0], position_player[1] + 1)
+                    if maze[next_position[0]][next_position[1]] == 0:
+                        maze[next_position[0]][next_position[1]] = 3
+                        maze[position_player[0]][position_player[1]] = 0
+                if keys[pygame.K_UP]:
+                    next_position = (position_player[0] - 1, position_player[1])
+                    if maze[next_position[0]][next_position[1]] == 0:
+                        maze[next_position[0]][next_position[1]] = 3
+                        maze[position_player[0]][position_player[1]] = 0
+                if keys[pygame.K_DOWN]:
+                    next_position = (position_player[0] + 1, position_player[1])
+                    if maze[next_position[0]][next_position[1]] == 0:
+                        maze[next_position[0]][next_position[1]] = 3
+                        maze[position_player[0]][position_player[1]] = 0
+
         screen.fill(BACKGROUND)
         # Desenhando Labirinto em tela
-        draw_maze(screen=screen) 
+        draw_maze(screen=screen, player=player) 
 
         pygame.display.flip()
         clock.tick(FPS)
