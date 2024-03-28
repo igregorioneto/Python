@@ -10,6 +10,9 @@ MONSTER_COLOR = (0, 255, 0)  # Cor do jogador
 BACKGROUND = (255,255,255) # Cor do Background
 FPS = 60 # FPS do jogo
 
+ROWS = 15
+COLS = 20
+
 # Representação do labirinto
 maze = [
     [1, 1, 1, 1, 1, 1, 1, 1],
@@ -21,8 +24,8 @@ maze = [
     [1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
-SCREEN_WIDTH = len(maze[0]) * CELL_SIZE # Largura da tela
-SCREEN_HEIGHT = len(maze) * CELL_SIZE # Altura da tela
+SCREEN_WIDTH = ROWS * CELL_SIZE # Largura da tela
+SCREEN_HEIGHT = COLS * CELL_SIZE # Altura da tela
 
 # Gerando o labirinto automático
 def generate_maze(rows, cols):
@@ -142,12 +145,12 @@ def show_message(screen, message):
 
     font = pygame.font.Font(None, 36)
     text = font.render(message, True, (0,0,255))
-    text_rect = text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+    text_rect = text.get_rect(center=(SCREEN_WIDTH // 2 + CELL_SIZE * 2, SCREEN_HEIGHT // 2 - CELL_SIZE * 2))
 
     button_text = font.render("OK", True, (255,255,255))
-    button_text_rect = button_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 80))
+    button_text_rect = button_text.get_rect(center=(SCREEN_WIDTH // 2 + CELL_SIZE * 2, SCREEN_HEIGHT // 2 - CELL_SIZE * 2 + 80))
     
-    button = pygame.Rect(SCREEN_WIDTH // 2 - 50, SCREEN_HEIGHT // 2 + 50, 100, 50)
+    button = pygame.Rect(SCREEN_WIDTH // 2 + CELL_SIZE * 2 - 50, SCREEN_HEIGHT // 2 - CELL_SIZE * 2 + 50, 100, 50)
     pygame.draw.rect(screen, (0,255,0), button)
 
     screen.blit(text, text_rect)
@@ -169,7 +172,7 @@ def show_message(screen, message):
 
 def initial_game():    
     pygame.init()
-    maze_game = generate_maze(7,8)
+    maze_game = generate_maze(ROWS,COLS)
     screen = pygame.display.set_mode((len(maze_game[0]) * CELL_SIZE, len(maze_game) * CELL_SIZE))
     pygame.display.set_caption("Maze")
     
