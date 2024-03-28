@@ -1,4 +1,4 @@
-import pygame, sys, copy
+import pygame, sys, copy, random
 
 # Constantes
 CELL_SIZE = 40
@@ -6,6 +6,7 @@ WALL_COLOR = (0, 0, 0)  # Cor das paredes
 PATH_COLOR = (255, 255, 255)  # Cor dos caminhos
 DESTINATION_COLOR = (255, 0, 0)  # Cor do ponto de destino
 PLAYER_COLOR = (97, 94, 233)  # Cor do jogador
+MONSTER_COLOR = (0, 255, 0)  # Cor do jogador
 BACKGROUND = (255,255,255) # Cor do Background
 FPS = 60 # FPS do jogo
 
@@ -23,8 +24,53 @@ maze = [
 SCREEN_WIDTH = len(maze[0]) * CELL_SIZE # Largura da tela
 SCREEN_HEIGHT = len(maze) * CELL_SIZE # Altura da tela
 
+# Gerando o labirinto automático
+def generate_maze(rows, cols):
+    # Inicialize uma matriz vazia
+    maze = [[0] * cols for _ in range(rows)]
+    
+    # Adicionando paredes externas
+    for i in range(rows):
+        maze[i][0] = 1
+        maze[i][cols - 1] = 1
+    for j in range(cols):
+        maze[0][j] = 1
+        maze[rows - 1][j] = 1
+
+    # Posicionando o jogador 3 e o ponto de saída 2 em lugar aleatório
+    player_row = random.randint(1, rows - 2)
+    player_col = random.randint(1, cols - 2)
+    maze[player_row][player_col] = 3
+    
+    exit_row = random.randint(1, rows - 2)
+    exit_col = random.randint(1, cols - 2)
+
+    monster_row = random.randint(1, rows - 2)
+    monster_col = random.randint(1, cols - 2)
+
+    # Certificando que o jogador e a saída não estão na mesma posição
+    while exit_row == player_row and exit_col == player_col:
+        exit_row = random.randint(1, rows - 2)
+        exit_col = random.randint(1, cols - 2)
+    maze[exit_row][exit_col] = 2
+
+    # Certificando que o monstro não esta na mesma posição do jogador e saída
+    while (monster_row == player_row and monster_row == exit_row) and (monster_col == exit_col and monster_col == player_col):
+        monster_row = random.randint(1, rows - 2)
+        monster_col = random.randint(1, cols - 2)
+    maze[monster_row][monster_col] = 4
+
+    # Adicionando pareces aleatórias
+    for i in range(1, rows - 1):
+        for j in range(1, cols - 1):
+            if maze[i][j] == 0:
+                # Probabilidade de adicionar uma parede
+                if random.random() < 0.2:
+                    maze[i][j] = 1
+    return maze
+
 # Função para desenhar o labirinto
-def draw_maze(screen, maze):
+def draw_maze(screen, maze):    
     for y, row in enumerate(maze):
         for x, cell in enumerate(row):
             if cell == 1:
@@ -35,6 +81,8 @@ def draw_maze(screen, maze):
                 color = DESTINATION_COLOR
             elif cell == 3:
                 color = PLAYER_COLOR
+            elif cell == 4:
+                color = MONSTER_COLOR
             pygame.draw.rect(screen, color, (x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
             pygame.draw.rect(screen, (0,0,0), (x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 1)
 
@@ -121,7 +169,7 @@ def show_message(screen, message):
 
 def initial_game():    
     pygame.init()
-    maze_game = copy.deepcopy(maze)
+    maze_game = generate_maze(7,8)
     screen = pygame.display.set_mode((len(maze_game[0]) * CELL_SIZE, len(maze_game) * CELL_SIZE))
     pygame.display.set_caption("Maze")
     
@@ -134,7 +182,6 @@ def initial_game():
 # Função principal
 def main():
     screen, clock, win, maze_game = initial_game()
-
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
