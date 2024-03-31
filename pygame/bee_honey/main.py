@@ -25,5 +25,5 @@ class Main:
             pygame.display.update()
 
 if __name__ == "__main__":
-    game = Main(320, 640, "BeeHoney")
+    game = Main(360, 640, "BeeHoney")
     game.update()
