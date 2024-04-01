@@ -19,7 +19,7 @@ class Game:
 
     def draw(self, window):
         self.bg.drawing(window)
-        self.bg.drawing(window)
+        self.bg2.drawing(window)
         self.bee.drawing(window)
         self.spider.drawing(window)
         self.flower.drawing(window)

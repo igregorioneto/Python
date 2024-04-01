@@ -8,7 +8,7 @@ class Main:
 
         pygame.mixer.init()
         pygame.mixer.music.load("assets/sounds/bg.ogg")
-        pygame.mixer.music.play()
+        pygame.mixer.music.play(-1)
 
         self.window = pygame.display.set_mode([360,640])
         self.title = pygame.display.set_caption("Bee Honey")
