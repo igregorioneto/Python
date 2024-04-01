@@ -31,7 +31,7 @@ class Obj:
 
 class Bee(Obj):
     def __init__(self, image, x, y):
-        super.__init__(self,image, x, y)
+        super().__init__(image, x, y)
 
         pygame.mixer.init()
         self.sound_pts = pygame.mixer.Sound("assets/sounds/score.ogg")

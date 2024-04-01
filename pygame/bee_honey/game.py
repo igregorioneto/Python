@@ -10,7 +10,7 @@ class Game:
         self.spider = Obj("assets/spider1.png", random.randrange(0, 300), -50)
         self.flower = Obj("assets/florwer1.png", random.randrange(0,300), -50)
 
-        self.bee = Obj("assets/bee1.png", 150, 600)
+        self.bee = Bee("assets/bee1.png", 150, 600)
 
         self.change_scene = False
 
@@ -37,8 +37,8 @@ class Game:
         self.bee.colision(self.spider.group, "Spider")
         self.bee.colision(self.flower.group, "Flower")
         self.gameover()
-        self.score.update_text(self.bee.pts)
-        self.lifes.update_text(self.bee.life)
+        self.score.update_text(str(self.bee.pts))
+        self.lifes.update_text(str(self.bee.life))
         
     def move_bg(self):
         self.bg.sprite.rect[1] += 10
@@ -65,5 +65,5 @@ class Game:
             self.flower = Obj("assets/florwer1.png", random.randrange(0,300), -50)
 
     def gameover(self):
-        if self.lifes <= 0:
+        if self.bee.life <= 0:
             self.change_scene = True
