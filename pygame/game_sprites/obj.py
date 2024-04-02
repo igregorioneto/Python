@@ -30,3 +30,14 @@ class Obj:
 class Player(Obj):
     def __init__(self, image, x, y, sprite_width, sprite_height, pixels_x, pixels_y, scale_factor=1):
         super().__init__(image, x, y, sprite_width, sprite_height, pixels_x, pixels_y, scale_factor)
+        self.speed = 10
+
+    def moviment(self, keys):            
+        if keys[pygame.K_UP]:
+            self.sprite.rect[1] -= self.speed
+        if keys[pygame.K_DOWN]:
+            self.sprite.rect[1] += self.speed
+        if keys[pygame.K_LEFT]:
+            self.sprite.rect[0] -= self.speed
+        if keys[pygame.K_RIGHT]:
+            self.sprite.rect[0] += self.speed

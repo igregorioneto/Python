@@ -13,15 +13,18 @@ class Main:
         
         path = os.path.dirname(os.path.abspath(__file__))
         self.player = Player(os.path.join(path, "assets", "player.png"), 0 - 48, 0 - 48, 48, 48, 288, 480, 2.5)
+        self.keys = pygame.key.get_pressed()   
 
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.loop = False
+        self.keys = pygame.key.get_pressed()    
 
     def update(self):
         while self.loop:
             self.events()
+            self.player.moviment(self.keys)
             self.draw()
             self.fps.tick(30)
             pygame.display.update()            
