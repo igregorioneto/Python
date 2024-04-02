@@ -10,8 +10,9 @@ class Main:
 
         self.loop = True
         self.fps = pygame.time.Clock()
-
-        self.player = Player(os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "player.png"), 100,100, 32, 64, 2)
+        
+        path = os.path.dirname(os.path.abspath(__file__))
+        self.player = Player(os.path.join(path, "assets", "player.png"), 0 - 48, 0 - 48, 48, 48, 288, 480, 2.5)
 
     def events(self):
         for event in pygame.event.get():
