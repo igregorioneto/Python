@@ -32,8 +32,7 @@ class Player(Obj):
         super().__init__(image, x, y, sprite_width, sprite_height, pixels_x, pixels_y, scale_factor)
         self.speed = 10
 
-    def moviment(self, keys):    
-        self.update()        
+    def moviment(self, keys):                           
         if keys[pygame.K_UP]:
             self.sprite.rect[1] -= self.speed
         if keys[pygame.K_DOWN]:
@@ -43,13 +42,13 @@ class Player(Obj):
         if keys[pygame.K_RIGHT]:
             self.sprite.rect[0] += self.speed
 
-    def update(self):
+    def anim(self, tick, frame, index):
         self.tick += 1
-        if self.tick == 5:
+        if self.tick == tick:
             self.tick = 0
             self.frame_index += 1
         
-        if self.frame_index == 5:
-            self.frame_index = 0
+        if self.frame_index == frame:
+            self.frame_index = index
             
         self.sprite.image = self.frames[self.frame_index]
