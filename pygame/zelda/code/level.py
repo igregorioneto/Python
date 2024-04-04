@@ -23,7 +23,7 @@ class Level:
                 if col == 'x':
                     Tiled(pos=(x, y), groups=[self.visible_sprites, self.obstacles_sprites])
                 if col == 'p':
-                    self.player = Player(pos=(x, y), groups=[self.visible_sprites])
+                    self.player = Player(pos=(x, y), groups=[self.visible_sprites], obstacle_sprites=self.obstacles_sprites)
 
     def run(self):
         # update and draw the game
