@@ -1,6 +1,7 @@
 import pygame
 from settings import *
 from tiled import Tiled
+from player import Player
 
 class Level:
     def __init__(self):
@@ -20,6 +21,8 @@ class Level:
                 y = row_index * TILESIZE
                 if col == 'x':
                     Tiled(pos=(x, y), groups=[self.visible_sprites])
+                if col == 'p':
+                    Player(pos=(x, y), groups=[self.visible_sprites])
 
     def run(self):
         # update and draw the game
