@@ -49,9 +49,19 @@ class VetorNaoOrdenado:
            self.valores = novo_vetor
            self.capacidade = nova_capacidade
 
+    def calcula_media(self):
+        if self.ultima_posicao == -1:
+            print('Sem valores para calcular média')
+        else:
+            n = self.ultima_posicao + 1
+            sum = 0
+            for i in range(self.ultima_posicao + 1):
+                sum += self.valores[i]
+            return sum / n
 
 vetor = VetorNaoOrdenado(5)
 vetor.imprime()
+print(vetor.calcula_media())
 print('-----')
 vetor.inserir(1)
 vetor.inserir(2)
@@ -60,6 +70,9 @@ vetor.inserir(4)
 vetor.inserir(5)
 vetor.inserir(5)
 vetor.imprime()
+print('-----')
+
+print(vetor.calcula_media())
 print('-----')
 
 print(vetor.pesquisar(3))
