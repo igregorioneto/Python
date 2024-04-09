@@ -11,13 +11,17 @@ clock = pygame.time.Clock()
 # creating a surface
 # test_surf = pygame.Surface((400,100))
 ship_surf = pygame.image.load('graphics/ship.png').convert_alpha()
+ship_rect = ship_surf.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
+# ship_rect = ship_surf.get_rect(center=(WINDOW_WIDTH - ship_surf.get_width() // 2, 500))
+
 bg_surf = pygame.image.load('graphics/background.png').convert_alpha()
 
 # Font
 font = pygame.font.Font('graphics/subatomic.ttf', 50)
 font_surf = font.render('Space', True, (255, 255, 255))
+font_rect = font_surf.get_rect(midbottom=(WINDOW_WIDTH // 2, WINDOW_HEIGHT - 80))
 
-ship_y_pos = 500 
+# ship_y_pos = 500 
 
 while True:
     # 1. Inputs
@@ -32,9 +36,12 @@ while True:
     display_surface.fill((0, 0, 0))
     # test_surf.fill((186, 120, 39))
     display_surface.blit(bg_surf, (0,0))
-    ship_y_pos -= 4
-    display_surface.blit(ship_surf, (300,ship_y_pos))
-    display_surface.blit(font_surf, (WINDOW_WIDTH // 2 - font_surf.get_width() // 2, 200))
+    # ship_y_pos -= 4
+    if ship_rect.y > 0:
+        ship_rect.y -= 4
+    display_surface.blit(ship_surf, ship_rect)
+    display_surface.blit(font_surf, font_rect)
+    # display_surface.blit(font_surf, (WINDOW_WIDTH // 2 - font_surf.get_width() // 2, 200))
 
     # display_surface.blit(test_surf, dest=(WINDOW_WIDTH - test_surf.get_width(),0))
 
