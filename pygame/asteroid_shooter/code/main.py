@@ -29,16 +29,26 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        # if event.type == pygame.MOUSEMOTION:
+        #     ship_rect.center = event.pos
+
+        # if event.type == pygame.MOUSEBUTTONDOWN:
+        #     print(event.pos)
 
     clock.tick(120)
+
+    ship_rect.center = pygame.mouse.get_pos()
+    mouse = pygame.mouse.get_pressed()
+    if mouse[0]:
+        print(ship_rect.center)
 
     # 2. updates
     display_surface.fill((0, 0, 0))
     # test_surf.fill((186, 120, 39))
     display_surface.blit(bg_surf, (0,0))
     # ship_y_pos -= 4
-    if ship_rect.y > 0:
-        ship_rect.y -= 4
+    # if ship_rect.y > 0:
+        # ship_rect.y -= 4
     display_surface.blit(ship_surf, ship_rect)
     display_surface.blit(font_surf, font_rect)
     # display_surface.blit(font_surf, (WINDOW_WIDTH // 2 - font_surf.get_width() // 2, 200))
