@@ -31,7 +31,7 @@ while True:
             pygame.quit()
             sys.exit()
 
-    clock.tick(120)
+    dt = clock.tick(120) / 1000
 
     # updates
     ship_rect.center = pygame.mouse.get_pos()
@@ -39,7 +39,7 @@ while True:
     if mouse[0]:
         print(ship_rect.center)
 
-    laser_rect.y -= 4
+    laser_rect.y -= round(200 * dt)
 
     # Drawing
     display_surface.fill((0, 0, 0))
