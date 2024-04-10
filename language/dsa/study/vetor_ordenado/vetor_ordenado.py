@@ -76,28 +76,24 @@ class VetorOrdenado:
                     limite_superior = posicao_atual - 1
 
     def fundir(self, vetor):
-        i = j = k = 0
-
-        while i < self.ultima_posicao + 1 and j < vetor.ultima_posicao + 1:
-            if self.valores[i] < vetor.valores[j]:
-                self.valores[k] = self.valores[i]
-                i += 1
-            else:
-                self.valores[k] = vetor.valores[j]
-                j += 1
-            k += 1
-
-        while i < self.ultima_posicao + 1:
-            self.valores[k] = self.valores[i]
-            i += 1
-            k += 1
-
-        while j < vetor.ultima_posicao + 1:
-            self.valores[k] = vetor.valores[j]
+        # Inserir os valores em um vetor
+        capacidade = self.capacidade + vetor.capacidade
+        
+        novo_vetor = np.empty(capacidade, dtype=int)
+        for i in range(self.ultima_posicao + 1):
+            novo_vetor[i] = self.valores[i]
+        
+        j = self.ultima_posicao + 1
+        for i in range(vetor.ultima_posicao + 1):
+            novo_vetor[j] = vetor.valores[i]
             j += 1
-            k += 1
-
-        self.ultima_posicao = k - 1
+            
+        # Ordenar o vetor
+        # Passar os dados para o vetor atual com os valores ordenados
+        self.capacidade = capacidade
+        self.ultima_posicao = -1
+        for i in range(j):
+            self.insere(novo_vetor[i])
 
 
 vetor = VetorOrdenado(10)
@@ -111,10 +107,10 @@ print('-------')
 print(vetor.pesquisa_binaria(8))
 
 vetor2 = VetorOrdenado(10)
-vetor2.insere(8)
-vetor2.insere(2)
-vetor2.insere(3)
-vetor2.insere(4)
+vetor2.insere(1)
+vetor2.insere(5)
+vetor2.insere(10)
+vetor2.insere(9)
 
 vetor.fundir(vetor2)
 
