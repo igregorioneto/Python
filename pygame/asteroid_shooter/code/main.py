@@ -9,6 +9,7 @@ clock = pygame.time.Clock()
 
 # Ship
 ship_surf = pygame.image.load('graphics/ship.png').convert_alpha()
+# ship_rotate = pygame.transform.rotate(ship_surf, -45)
 ship_rect = ship_surf.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
 
 # Laser
@@ -20,8 +21,8 @@ bg_surf = pygame.image.load('graphics/background.png').convert_alpha()
 
 # Font
 font = pygame.font.Font('graphics/subatomic.ttf', 50)
-font_surf = font.render('Space', True, (255, 255, 255))
-font_rect = font_surf.get_rect(midbottom=(WINDOW_WIDTH // 2, WINDOW_HEIGHT - 80))
+text_surf = font.render('Space', True, (255, 255, 255))
+text_rect = text_surf.get_rect(midbottom=(WINDOW_WIDTH // 2, WINDOW_HEIGHT - 80))
 
 while True:
     # Events
@@ -43,9 +44,13 @@ while True:
     # Drawing
     display_surface.fill((0, 0, 0))
     display_surface.blit(bg_surf, (0,0))    
-    display_surface.blit(ship_surf, ship_rect)    
-    display_surface.blit(font_surf, font_rect)
+    
+    display_surface.blit(text_surf, text_rect)
+    pygame.draw.rect(display_surface, (255,255,255), text_rect.inflate(30,30), width=8, border_radius=5)
+
     display_surface.blit(laser_surf, laser_rect)
+    display_surface.blit(ship_surf, ship_rect)    
+
 
     # draw the final frame
     pygame.display.update()
