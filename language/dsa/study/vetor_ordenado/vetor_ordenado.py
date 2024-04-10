@@ -75,19 +75,33 @@ class VetorOrdenado:
                 else:
                     limite_superior = posicao_atual - 1
 
+    def fundir(self, vetor):
+        i = j = k = 0
 
+        while i < self.ultima_posicao + 1 and j < vetor.ultima_posicao + 1:
+            if self.valores[i] < self.valores[j]:
+                self.valores[k] = self.valores[i]
+                i += 1
+            else:
+                self.valores[k] = self.valores[j]
+                j += 1
+            k += 1
 
+        while i < self.ultima_posicao + 1:
+            self.valores[k] = self.valores[i]
+            i += 1
+            k += 1
+
+        while j < vetor.ultima_posicao + 1:
+            self.valores[k] = self.valores[j]
+            j += 1
+            k += 1
+
+        self.ultima_posicao = k - 1
 
 
 vetor = VetorOrdenado(10)
 vetor.imprime()
-print('-------')
-vetor.insere(6)
-vetor.imprime()
-print('-------')
-vetor.insere(1)
-vetor.imprime()
-print('-------')
 vetor.insere(8)
 vetor.insere(2)
 vetor.insere(3)
@@ -95,4 +109,14 @@ vetor.insere(4)
 vetor.imprime()
 print('-------')
 print(vetor.pesquisa_binaria(8))
+
+vetor2 = VetorOrdenado(10)
+vetor2.insere(8)
+vetor2.insere(2)
+vetor2.insere(3)
+vetor2.insere(4)
+
+vetor.fundir(vetor2)
+
+vetor.imprime()
     
