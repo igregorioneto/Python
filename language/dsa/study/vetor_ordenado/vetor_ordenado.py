@@ -79,11 +79,11 @@ class VetorOrdenado:
         i = j = k = 0
 
         while i < self.ultima_posicao + 1 and j < vetor.ultima_posicao + 1:
-            if self.valores[i] < self.valores[j]:
+            if self.valores[i] < vetor.valores[j]:
                 self.valores[k] = self.valores[i]
                 i += 1
             else:
-                self.valores[k] = self.valores[j]
+                self.valores[k] = vetor.valores[j]
                 j += 1
             k += 1
 
@@ -93,7 +93,7 @@ class VetorOrdenado:
             k += 1
 
         while j < vetor.ultima_posicao + 1:
-            self.valores[k] = self.valores[j]
+            self.valores[k] = vetor.valores[j]
             j += 1
             k += 1
 
