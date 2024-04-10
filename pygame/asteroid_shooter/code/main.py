@@ -1,5 +1,11 @@
 import pygame, sys, os
 
+def laser_update(laser_list, speed = 300):
+    for laser in laser_list:
+        laser.y -= round(speed * dt)
+        if laser.bottom < 0:
+            laser_list.remove(laser)
+
 # Pygame Init
 pygame.init()
 WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 640
@@ -14,7 +20,7 @@ ship_rect = ship_surf.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
 
 # Laser
 laser_surf = pygame.image.load('graphics/laser.png').convert_alpha()
-laser_rect = laser_surf.get_rect(midbottom=ship_rect.midtop)
+laser_list = []
 
 # Background
 bg_surf = pygame.image.load('graphics/background.png').convert_alpha()
@@ -30,16 +36,16 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            laser_rect = laser_surf.get_rect(midbottom=ship_rect.midtop)
+            laser_list.append(laser_rect)
 
     dt = clock.tick(120) / 1000
 
     # updates
     ship_rect.center = pygame.mouse.get_pos()
-    mouse = pygame.mouse.get_pressed()
-    if mouse[0]:
-        print(ship_rect.center)
 
-    laser_rect.y -= round(200 * dt)
+    laser_update(laser_list)
 
     # Drawing
     display_surface.fill((0, 0, 0))
@@ -48,9 +54,9 @@ while True:
     display_surface.blit(text_surf, text_rect)
     pygame.draw.rect(display_surface, (255,255,255), text_rect.inflate(30,30), width=8, border_radius=5)
 
-    display_surface.blit(laser_surf, laser_rect)
+    for laser in laser_list:
+        display_surface.blit(laser_surf, laser)
     display_surface.blit(ship_surf, ship_rect)    
-
 
     # draw the final frame
     pygame.display.update()
