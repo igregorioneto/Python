@@ -1,4 +1,5 @@
 import pygame, sys, os
+from random import randint, uniform
 
 def laser_update(laser_list, speed = 300):
     for laser in laser_list:
@@ -6,19 +7,27 @@ def laser_update(laser_list, speed = 300):
         if laser.bottom < 0:
             laser_list.remove(laser)
 
-def display_score():
-    score_text = f'Score: {pygame.time.get_ticks() // 1000}'
-    text_surf = font.render(score_text, True, (255, 255, 255))
-    text_rect = text_surf.get_rect(midbottom=(WINDOW_WIDTH // 2, WINDOW_HEIGHT - 80))
-    display_surface.blit(text_surf, text_rect)
-    pygame.draw.rect(display_surface, (255,255,255), text_rect.inflate(30,30), width=8, border_radius=5)
-
 def laser_timer(can_shoot, duration = 500):
     if not can_shoot:
         current_time = pygame.time.get_ticks()
         if current_time - shoot_time > duration:
             can_shoot = True
     return can_shoot
+
+def meteor_update(meteor_list, speed = 300):
+    for meteor_tuple in meteor_list:
+        direction = meteor_tuple[1]
+        meteor_rect = meteor_tuple[0]
+        meteor_rect.center += direction * speed * dt
+        if meteor_rect.top > WINDOW_HEIGHT:
+            meteor_list.remove(meteor_tuple)
+
+def display_score():
+    score_text = f'Score: {pygame.time.get_ticks() // 1000}'
+    text_surf = font.render(score_text, True, (255, 255, 255))
+    text_rect = text_surf.get_rect(midbottom=(WINDOW_WIDTH // 2, WINDOW_HEIGHT - 80))
+    display_surface.blit(text_surf, text_rect)
+    pygame.draw.rect(display_surface, (255,255,255), text_rect.inflate(30,30), width=8, border_radius=5)
 
 # Pygame Init
 pygame.init()
@@ -29,7 +38,6 @@ clock = pygame.time.Clock()
 
 # Ship
 ship_surf = pygame.image.load('graphics/ship.png').convert_alpha()
-# ship_rotate = pygame.transform.rotate(ship_surf, -45)
 ship_rect = ship_surf.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
 
 # Laser
@@ -43,6 +51,15 @@ bg_surf = pygame.image.load('graphics/background.png').convert_alpha()
 font = pygame.font.Font('graphics/subatomic.ttf', 50)
 
 can_shoot = True
+shoot_time = None
+
+meteor_surf = pygame.image.load('graphics/meteor.png').convert_alpha()
+meteor_list = []
+
+can_meteor = True
+meteor_time = None
+meteor_timer = pygame.event.custom_type()
+pygame.time.set_timer(meteor_timer, 500)
 
 while True:
     # Events
@@ -58,6 +75,13 @@ while True:
             can_shoot = False
             shoot_time = pygame.time.get_ticks()
 
+        if event.type == meteor_timer:
+           x_pos = randint(-100, WINDOW_WIDTH+100)
+           y_pos = randint(-100,-50)
+           meteor_rect = meteor_surf.get_rect(center = (x_pos,y_pos))
+           direction = pygame.math.Vector2(uniform(-0.5,0.5), 1)
+           meteor_list.append((meteor_rect, direction))
+
     dt = clock.tick(120) / 1000
 
     # updates
@@ -65,6 +89,9 @@ while True:
 
     laser_update(laser_list)
     can_shoot = laser_timer(can_shoot, 400)
+
+    meteor_update(meteor_list)
+    # can_meteor = meteor_timer(can_meteor, 400)
 
     # Drawing
     display_surface.fill((0, 0, 0))
@@ -74,6 +101,10 @@ while True:
 
     for laser in laser_list:
         display_surface.blit(laser_surf, laser)
+
+    for meteor_tuple in meteor_list:
+        display_surface.blit(meteor_surf, meteor_tuple[0])    
+
     display_surface.blit(ship_surf, ship_rect)    
 
     # draw the final frame
