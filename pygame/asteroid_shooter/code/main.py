@@ -56,10 +56,12 @@ shoot_time = None
 meteor_surf = pygame.image.load('graphics/meteor.png').convert_alpha()
 meteor_list = []
 
+pygame.mixer.init()
 laser_sound = pygame.mixer.Sound('sounds/laser.wav')
 explosion_sound = pygame.mixer.Sound('sounds/explosion.wav')
-background_sound = pygame.mixer.Sound('sounds/music.wav')
-background_sound.play(loops=-1)
+
+# background_sound = pygame.mixer.music.load('sounds/music.wav')
+# pygame.mixer.music.play(-1)
 
 can_meteor = True
 meteor_time = None
