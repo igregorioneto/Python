@@ -56,9 +56,10 @@ shoot_time = None
 meteor_surf = pygame.image.load('graphics/meteor.png').convert_alpha()
 meteor_list = []
 
-music = pygame.mixer.init('sounds/music.wav')
-laser_sound = pygame.mixer.Sound('sounds/laser.ogg')
-explosion = pygame.mixer.Sound('sounds/explosion.wav')
+laser_sound = pygame.mixer.Sound('sounds/laser.wav')
+explosion_sound = pygame.mixer.Sound('sounds/explosion.wav')
+background_sound = pygame.mixer.Sound('sounds/music.wav')
+background_sound.play(loops=-1)
 
 can_meteor = True
 meteor_time = None
@@ -78,6 +79,8 @@ while True:
             # timer
             can_shoot = False
             shoot_time = pygame.time.get_ticks()
+
+            laser_sound.play()
 
         if event.type == meteor_timer:
            x_pos = randint(-100, WINDOW_WIDTH+100)
@@ -105,6 +108,7 @@ while True:
         for meteor_tuple in meteor_list:
             meteor_rect = meteor_tuple[0]
             if laser_react.colliderect(meteor_rect):
+                explosion_sound.play()
                 laser_list.remove(laser_rect)
                 meteor_list.remove(meteor_tuple)
     
